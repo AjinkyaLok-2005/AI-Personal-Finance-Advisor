@@ -8,6 +8,7 @@ from dl_layer.lstm_model import load_lstm_model
 from dl_layer.lstm_model import predict_next_month
 from nlp_layer.sms_parser import parse_sms_transaction
 from agent_layer.budget_agent import analyze_budget_advanced
+from agent_layer.financial_agent import FinancialAgent
 
 df = load_kaggle_dataset("data/raw/budget_data.csv")
 
@@ -41,6 +42,14 @@ sample_sms = "Rs. 540 debited from A/C XXXX1234 on 12-02-2024 at Amazon. Avl Bal
 
 parsed_df = parse_sms_transaction(sample_sms)
 
+agent = FinancialAgent(monthly_df)
+
+financial_report = agent.evaluate(
+    category_name = "Transport",
+    predicted_spending = predicted_value,
+    monthly_budget = 25
+)
+
 # print(monthly_df.head())
 
 # print("X shape: ", X.shape)
@@ -53,3 +62,6 @@ print(parsed_df)
 
 print("\nBudget Analysis:")
 print(budget_analysis)
+
+print("\nFinancial Agent Report:")
+print(financial_report)
